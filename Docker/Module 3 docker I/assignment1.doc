@@ -1,0 +1,68 @@
+
+
+/*********************************************************************************
+# Pulling Ubuntu into the Virtual Machine
+# Install Apache2 into Ubuntu Container
+#Mapping to Port 80 and getting the Apache2 Welcome Page display
+*********************************************************************************/
+
+root@docvm1:~# docker pull ubuntu
+Using default tag: latest
+latest: Pulling from library/ubuntu
+5d3b2c2d21bb: Pull complete
+3fc2062ea667: Pull complete
+75adf526d75b: Pull complete
+Digest: sha256:b4f9e18267eb98998f6130342baacaeb9553f136142d40959a1b46d6401f0f2b
+Status: Downloaded newer image for ubuntu:latest
+docker.io/library/ubuntu:latest
+root@docvm1:~#
+
+root@docvm1:~# docker exec -it a65ddbda35f7 bash
+root@a65ddbda35f7:/# read escape sequence
+root@docvm1:~# docker ps
+
+CONTAINER ID   IMAGE           COMMAND                  CREATED        STATUS        PORTS                  NAMES
+a65ddbda35f7   ubuntu          "/bin/bash"              2 hours ago    Up 2 hours                           reverent_almeida
+
+root@docvm1:~# docker exec -it a65ddbda35f7 bash
+root@a65ddbda35f7:/#apt-get update
+root@a65ddbda35f7:/# docker pull httpd
+
+root@a65ddbda35f7:/# service
+Usage: service < option > | --status-all | [ service_name [ command | --full-restart ] ]
+root@a65ddbda35f7:/# service --status-all
+ [ - ]  apache-htcacheclean
+ [ - ]  apache2
+ [ ? ]  hwclock.sh
+ [ - ]  procps
+root@a65ddbda35f7:/# service apache2 start
+ * Starting Apache httpd web server apache2                                     AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.17.0.8. Set the 'ServerName' directive globally to suppress this message
+ *
+root@a65ddbda35f7:/# service --status-all
+ [ - ]  apache-htcacheclean
+ [ + ]  apache2
+ [ ? ]  hwclock.sh
+ [ - ]  procps
+//*********** Saved using Commit command***************//
+root@docvm1:~# docker run --name ubuntu_apacheweb1 -dit -p 8080:80 ubuntu:apa1
+cac5ecd1bc5b8b7f5e55308111a465bc14559895c92cbb5a3fca144f0f6b4c5b
+root@docvm1:~# docker exec -it ubuntu_apacheweb1 /etc/startup.bat
+ * Starting Apache httpd web server apache2                                     AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.17.0.2. Set the 'ServerName' directive globally to suppress this message
+ *
+root@docvm1:~# docker exec -it ubuntu_apacheweb1 /bin/bash
+root@cac5ecd1bc5b:/# service --status-all
+ [ - ]  apache-htcacheclean
+ [ + ]  apache2
+ [ ? ]  hwclock.sh
+ [ - ]  procps
+
+root@docvm1:~# docker ps
+CONTAINER ID   IMAGE         COMMAND              CREATED         STATUS         PORTS                  NAMES
+cac5ecd1bc5b   ubuntu:apa1   "/bin/bash"          2 minutes ago   Up 2 minutes   0.0.0.0:8080->80/tcp   ubuntu_apacheweb1
+
+
+
+
+Output
+ 
+
