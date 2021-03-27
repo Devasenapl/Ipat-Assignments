@@ -1,0 +1,76 @@
+Assignment 3 output on VM1
+
+root@docvm1:~# hostname
+docvm1
+root@docvm1:~# hostname -i
+172.31.23.134 172.17.0.1 fe80::492:f3ff:fe42:9650 fe80::42:bfff:febc:b2a6 fe80::7066:3ff:fee7:3f57 fe80::20ae:86ff:fe00:59b7
+root@docvm1:~# docker tag ubuntu:tapa1 devasenapl/ubuntu:dtapa1
+root@docvm1:~# ^C
+root@docvm1:~# docker push devasenapl/ubuntu:dtapa1
+The push refers to repository [docker.io/devasenapl/ubuntu]
+47a6f75df9b6: Pushed
+d277c90f54bc: Pushed
+c20d459170d8: Mounted from library/ubuntu
+db978cae6a05: Mounted from library/ubuntu
+aeb3f02e9374: Mounted from library/ubuntu
+dtapa1: digest: sha256:676675283f12000843ca241118873dce980aa9c6ce80be9b776c1c6bd49eb417 size: 1363
+root@docvm1:~#
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+==========================================================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Output on VM2
+
+
+root@docvm2:~# docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+root@docvm2:~# docker pull devasenapl/ubuntu:dtapa1
+dtapa1: Pulling from devasenapl/ubuntu
+5d3b2c2d21bb: Pull complete
+3fc2062ea667: Pull complete
+75adf526d75b: Pull complete
+c96de91bdc06: Pull complete
+84203f84efb6: Pull complete
+Digest: sha256:676675283f12000843ca241118873dce980aa9c6ce80be9b776c1c6bd49eb417
+Status: Downloaded newer image for devasenapl/ubuntu:dtapa1
+docker.io/devasenapl/ubuntu:dtapa1
+
+root@docvm2:~# docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+root@docvm2:~# docker ps -a
+CONTAINER ID   IMAGE         COMMAND    CREATED         STATUS                                                                                                  PORTS     NAMES
+7e22a2820927   hello-world   "/hello"   2 minutes ago   Exited (0) 2 minutes ago                                                                                          recursing_bohr
+
+root@docvm2:~# docker images
+REPOSITORY          TAG       IMAGE ID       CREATED             SIZE
+devasenapl/ubuntu   dtapa1    f93557600f6e   About an hour ago   269MB
+hello-world         latest    d1165f221234   3 weeks ago         13.3kB
+
+root@docvm2:~# docker run --name ubuntu_ttapacheweb1 -dit -p 8082:80 devasenapl/ubuntu:dtapa1
+5749d64b2c50e4ecb7081d9e2805c025e68a5ad7656d79e30d153d642a9966cc
+
+root@docvm2:~# docker ps
+CONTAINER ID   IMAGE                      COMMAND       CREATED          STATUS          PORTS                  NAMES
+5749d64b2c50   devasenapl/ubuntu:dtapa1   "/bin/bash"   29 seconds ago   Up 28 seconds   0.0.0.0:8082->80/tcp   ubuntu_ttapacheweb1
+root@docvm2:~# ^C
+
+root@docvm2:~# docker exec -it 5749d64b2c50 bash
+root@5749d64b2c50:/# service --status-all
+ [ - ]  apache-htcacheclean
+ [ - ]  apache2
+ [ ? ]  hwclock.sh
+ [ - ]  procps
+root@5749d64b2c50:/# service apache2 start
+ * Starting Apache httpd web server apache2                                                                                                                  AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.17.0.2. Set the 'ServerName' directive globally to suppress this message
+ *
+root@5749d64b2c50:/# service --status-all
+ [ - ]  apache-htcacheclean
+ [ + ]  apache2
+ [ ? ]  hwclock.sh
+ [ - ]  procps
+root@5749d64b2c50:/# hostname -i
+172.17.0.2
+root@5749d64b2c50:/# read escape sequence
+root@docvm2:~# hostname -i
+172.31.26.223 172.17.0.1 fe80::485:c5ff:feb7:4bc fe80::42:73ff:fef8:4c65 fe80::28a9:75ff:fefe:52a9
+root@docvm2:~#
