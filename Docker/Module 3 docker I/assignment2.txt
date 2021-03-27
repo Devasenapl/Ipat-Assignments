@@ -1,0 +1,41 @@
+Assignment 2 output
+
+
+ubuntu@docvm1:~$ sudo su -
+root@docvm1:~# clear
+root@docvm1:~# docker ps
+CONTAINER ID   IMAGE         COMMAND       CREATED        STATUS        PORTS                  NAMES
+cac5ecd1bc5b   ubuntu:apa1   "/bin/bash"   45 hours ago   Up 45 hours   0.0.0.0:8080->80/tcp   ubuntu_apacheweb1
+dbc85dd8c4ac   ubuntu        "bash"        2 days ago     Up 2 days                            vigorous_jones
+root@docvm1:~# ^C
+
+
+root@docvm1:~# docker commit cac5ecd1bc5b ubuntu:tapa1
+sha256:f93557600f6ecd9ebe43bbc1391e59cbc850481c4b68e82b89eb54694f771c04
+root@docvm1:~# docker stop cac5ecd1bc5b
+cac5ecd1bc5b
+root@docvm1:~# docker run --name ubuntu_tapacheweb1 -dit -p 8081:81 ubuntu:tapa1
+2ec1d7fc0384582455d4d82fd0230c3cdab5625e3acade6b0a07b3114d2bbd63
+root@docvm1:~# docker ps
+CONTAINER ID   IMAGE          COMMAND       CREATED              STATUS              PORTS                          NAMES
+2ec1d7fc0384   ubuntu:tapa1   "/bin/bash"   About a minute ago   Up About a minute   80/tcp, 0.0.0.0:8081->81/tcp   ubuntu_tapacheweb1
+dbc85dd8c4ac   ubuntu         "bash"        2 days ago           Up 2 days                                          vigorous_jones
+root@docvm1:~# ^C
+
+
+root@docvm1:~# docker exec -it 2ec1d7fc0384 bash
+root@2ec1d7fc0384:/# service --status-all
+ [ - ]  apache-htcacheclean
+ [ - ]  apache2
+ [ ? ]  hwclock.sh
+ [ - ]  procps
+root@2ec1d7fc0384:/# service apache2 start
+ * Starting Apache httpd web server apache2                                                                                                                  AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.17.0.2. Set the 'ServerName' directive globally to suppress this message
+ *
+root@2ec1d7fc0384:/# service --status-all
+ [ - ]  apache-htcacheclean
+ [ + ]  apache2
+ [ ? ]  hwclock.sh
+ [ - ]  procps
+root@2ec1d7fc0384:/# read escape sequence
+root@docvm1:~#
