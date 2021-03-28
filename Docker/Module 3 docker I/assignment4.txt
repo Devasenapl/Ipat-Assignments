@@ -1,0 +1,75 @@
+//******************************************************************************
+      Creating a Docker file to install Apache2 on Unbutu base   
+******************************************************************************//
+
+ubuntu@docvm1:~$ sudo su -
+
+
+root@docvm1:~# vi sdfile
+
+FROM ubuntu
+RUN apt-get update
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get install -y apache2
+EXPOSE 80
+WORKDIR /usr/sbin
+CMD ["apachectl", "-D", "FOREGROUND"]
+
+
+root@docvm1:~# docker build --file sdfile --tag mysdfile:v1-auto .
+Sending build context to Docker daemon  58.88kB
+Step 1/7 : FROM ubuntu
+ ---> 4dd97cefde62
+Step 2/7 : RUN apt-get update
+ ---> Running in d93f61f3235c
+
+;
+;
+; updates continued
+;
+;
+ Reading package lists...
+Removing intermediate container d93f61f3235c
+ ---> 567e75c583df
+Step 3/7 : ENV DEBIAN_FRONTEND=noninteractive
+ ---> Running in 4778fdc7e42e
+Removing intermediate container 4778fdc7e42e
+ ---> 305129fda3e5
+Step 4/7 : RUN apt-get install -y apache2
+ ---> Running in 4195a94010de
+
+ ;
+ ;
+ ; updates continued
+ ;
+ ;
+  
+Running hooks in /etc/ca-certificates/update.d...
+done.
+Removing intermediate container 4195a94010de
+ ---> 4799ac41ecce
+Step 5/7 : EXPOSE 80
+ ---> Running in 1fb016ed55b0
+Removing intermediate container 1fb016ed55b0
+ ---> 8b1d887fb8ec
+Step 6/7 : WORKDIR /usr/sbin
+ ---> Running in f58ab3d01c39
+Removing intermediate container f58ab3d01c39
+ ---> f42afbcc1d81
+Step 7/7 : CMD ["apachectl", "-D", "FOREGROUND"]
+ ---> Running in 875ea69f1ff8
+Removing intermediate container 875ea69f1ff8
+ ---> 648fababb86f
+Successfully built 648fababb86f
+Successfully tagged mysdfile:v1-auto
+
+
+
+root@docvm1:~# docker images
+REPOSITORY          TAG              IMAGE ID       CREATED          SIZE
+mysdfile            v1-auto          648fababb86f   57 seconds ago   214MB
+
+
+root@docvm1:~# docker ps
+CONTAINER ID   IMAGE              COMMAND                  CREATED        STATUS        PORTS                          NAMES
+0290bd3a088e   mysdfile:v1-auto   "apachectl -D FOREGR…"   13 hours ago   Up 13 hours   0.0.0.0:49157->80/tcp          eloquent_meitner
