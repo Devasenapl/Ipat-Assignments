@@ -19,6 +19,9 @@ root@docvm1:~# docker commit cac5ecd1bc5b ubuntu:tapa1
 sha256:f93557600f6ecd9ebe43bbc1391e59cbc850481c4b68e82b89eb54694f771c04
 root@docvm1:~# docker stop cac5ecd1bc5b
 cac5ecd1bc5b
+
+//****************************** creating a new container to listen port 81 ********************************************************//
+
 root@docvm1:~# docker run --name ubuntu_tapacheweb1 -dit -p 8081:81 ubuntu:tapa1
 2ec1d7fc0384582455d4d82fd0230c3cdab5625e3acade6b0a07b3114d2bbd63
 root@docvm1:~# docker ps
