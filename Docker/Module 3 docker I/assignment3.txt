@@ -1,3 +1,9 @@
+//*****************************************************************************************************************************
+    Save the Assignment 2 Container(in VM1), Push it into the Docker hub (from VM1), pull into new Virtual Machine (VM2),
+    Create a new Container in VM 2 to listen the port 80.   
+*****************************************************************************************************************************//
+
+
 Assignment 3 output on VM1
 
 root@docvm1:~# hostname
