@@ -1,0 +1,30 @@
+Module 3 – Docker I – Assignment 5 Output
+ubuntu@docvm1:~$ sudo su -
+root@docvm1:~# docker ps
+CONTAINER ID   IMAGE              COMMAND                  CREATED        STATUS        PORTS                          NAMES
+0290bd3a088e   mysdfile:v1-auto   "apachectl -D FOREGR…"   33 hours ago   Up 33 hours   0.0.0.0:49157->80/tcp          eloquent_meitner
+2ec1d7fc0384   ubuntu:tapa1       "/bin/bash"              43 hours ago   Up 43 hours   80/tcp, 0.0.0.0:8081->81/tcp   ubuntu_tapacheweb1
+dbc85dd8c4ac   ubuntu             "bash"                   4 days ago     Up 4 days                                    vigorous_jones
+root@docvm1:~# ^C
+root@docvm1:~# docker exec -it 0290bd3a088e bash
+root@0290bd3a088e:/usr/sbin# cd /var/www/html/
+//************** Moving index.html to index_original.html *******************//
+root@0290bd3a088e:/var/www/html# mv index.html index_original.html
+root@0290bd3a088e:/var/www/html# ls -ltr
+total 12
+-rw-r--r-- 1 root root 10918 Mar 27 16:05 index_original.html
+
+//*************** Creating new index.html *******************************//
+root@0290bd3a088e:/var/www/html# vi index.html
+root@0290bd3a088e:/var/www/html# cat index.html
+<html>
+  <title>Welcome page</title>
+  <body>
+    <h1>Welcome to Docker's World!</h1>
+    <p> <h3>This page is created for Intellipat Assignment 5 in Docker I Module </h3> </p>
+  </body>
+</html>
+root@0290bd3a088e:/var/www/html# ls -ltr
+total 16
+-rw-r--r-- 1 root root 10918 Mar 27 16:05 index_original.html
+-rw-r--r-- 1 root root   187 Mar 29 03:11 index.html
